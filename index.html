@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI Pilots: The First 90 Days | Operating Model Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#10122E;
+  --navy-soft:#4B4E6B;
+  --ink:#1B1B21;
+  --muted:#5A5B66;
+  --red:#ED1B2F;
+  --red-dark:#AF0E20;
+  --red-wash:#FDECEE;
+  --wash:#F7F7F8;
+  --line:#E6E6EA;
+  --white:#FFFFFF;
+  --maxw:920px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--white);line-height:1.7;font-size:17px}
+h1,h2,h3,h4{font-family:'Inter',sans-serif;color:var(--navy);letter-spacing:-0.02em;line-height:1.2}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+.eyebrow{font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--red-dark);margin-bottom:14px}
+section{padding:64px 0;border-top:1px solid var(--line);scroll-margin-top:48px}
+section:first-of-type{border-top:none}
+
+/* Hero */
+.hero{background:var(--white);padding:80px 0 56px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{color:var(--red)}
+.hero h1{color:var(--ink);font-size:clamp(36px,5.5vw,56px);font-weight:600;letter-spacing:-0.025em;max-width:780px}
+.hero h1 .accent{color:var(--red)}
+.hero p.lede{color:var(--muted);font-size:19px;max-width:660px;margin-top:22px}
+.hero .meta{margin-top:36px;display:flex;flex-wrap:wrap;gap:36px;font-size:14px;color:var(--muted)}
+.hero .meta strong{color:var(--navy);font-weight:600;display:block;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px}
+
+/* Sticky nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.96);backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:0;padding-bottom:0}
+.nav a{flex:0 0 auto;font-family:'Inter',sans-serif;font-size:13.5px;font-weight:600;color:var(--navy-soft);text-decoration:none;padding:14px 14px;border-bottom:3px solid transparent;white-space:nowrap}
+.nav a:hover{color:var(--navy);border-bottom-color:var(--line)}
+.nav a.on{color:var(--red-dark);border-bottom-color:var(--red)}
+
+/* Headings */
+h2{font-size:clamp(26px,3.6vw,34px);font-weight:600;margin-bottom:8px}
+.kicker{color:var(--muted);font-size:17px;max-width:720px;margin-bottom:28px}
+h3{font-size:21px;font-weight:600;margin:36px 0 10px}
+p{margin-bottom:16px;max-width:760px}
+p:last-child{margin-bottom:0}
+
+/* Diagram block */
+.figure{background:var(--wash);border:1px solid var(--line);border-radius:14px;padding:26px 26px 18px;margin:28px 0 10px}
+.figure svg{display:block;width:100%;height:auto}
+.figure a.lnk{cursor:pointer}
+.figure a.lnk:hover rect{stroke:var(--red);stroke-width:1.5}
+.figure a.lnk:focus-visible rect{stroke:var(--red);stroke-width:2}
+.figure a.lnk-dark:hover rect{fill:#3A3D66}
+.figcap{font-size:13.5px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.howto{background:var(--red-wash);border:1px solid #F6CDD3;border-radius:14px;padding:22px 26px;margin:14px 0 30px}
+.howto h4{font-size:14px;letter-spacing:0.1em;text-transform:uppercase;color:var(--red-dark);margin-bottom:10px;font-weight:600}
+.howto p{font-size:15.5px;margin-bottom:10px;max-width:none}
+.howto p:last-child{margin-bottom:0}
+.howto b{color:var(--navy);font-weight:600}
+
+/* Deliverable cards */
+.card{border:1px solid var(--line);border-radius:14px;padding:30px 32px;margin:22px 0;background:#fff;scroll-margin-top:84px}
+.card .num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--red);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:16px;margin-right:12px;vertical-align:middle}
+.card h3{display:flex;align-items:center;margin:0 0 18px;font-size:20px}
+.card .lbl{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red-dark);margin:18px 0 4px}
+.card .lbl:first-of-type{margin-top:0}
+.card p{font-size:16px;margin-bottom:8px}
+
+/* Phase intro band */
+.phasehead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.phasetag{font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;color:#fff;background:var(--navy);border-radius:4px;padding:7px 16px;letter-spacing:0.1em;text-transform:uppercase}
+
+/* Always-on cards */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:26px 0}
+.trio .t{background:var(--navy);color:#fff;border-radius:14px;padding:24px}
+.trio h3{color:#fff;margin:0 0 10px;font-size:18px}
+.trio p{color:#C6C7D2;font-size:15px;margin:0}
+
+/* Status table */
+table{border-collapse:collapse;width:100%;margin:24px 0;font-size:15.5px}
+th{font-family:'Inter',sans-serif;text-align:left;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy-soft);border-bottom:2px solid var(--navy);padding:10px 14px 8px}
+td{border-bottom:1px solid var(--line);padding:12px 14px;vertical-align:top}
+td:first-child{font-weight:600;color:var(--navy);white-space:nowrap}
+
+/* Footer */
+footer{background:var(--navy);color:#9B9CB0;padding:48px 0;font-size:14.5px}
+footer strong{color:#fff}
+footer a{color:#fff}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  .trio{grid-template-columns:1fr}
+  .card{padding:24px 20px}
+  .figure{padding:18px 14px 12px}
+  section{padding:48px 0}
+}
+@media print{
+  .nav{display:none}
+  section{padding:32px 0}
+  .hero{padding:40px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Operating model proposal</div>
+    <h1><span class="accent">AI pilots:</span> the first 90 days.</h1>
+    <p class="lede">A repeatable framework for identifying, deploying, governing, and measuring AI across core business processes. Built to deliver durable productivity gains in two pilot functions, then scale as the results earn it.</p>
+    <div class="meta">
+      <div><strong>Prepared by</strong>Chris Coyoli</div>
+      <div><strong>Scope</strong>Two pilot functions, expanding on validated results</div>
+      <div><strong>Horizon</strong>90 days to operating, six months to validated</div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="topnav">
+  <div class="wrap">
+    <a href="#overview">Overview</a>
+    <a href="#phase1">Days 1-30</a>
+    <a href="#phase2">Days 31-60</a>
+    <a href="#phase3">Days 61-90</a>
+    <a href="#alwayson">Always on</a>
+    <a href="#beyond">Beyond day 90</a>
+  </div>
+</nav>
+
+<section id="overview">
+  <div class="wrap">
+    <div class="eyebrow">Overview</div>
+    <h2>One map for the whole program</h2>
+    <p class="kicker">Everything in this guide hangs off a single picture: three 30-day phases, a layer of work that never stops, and an outcome that extends past day 90.</p>
+
+    <p>The framework is built so that by day 90 there are deployed pilots, real measurements against documented starting points, and a written playbook. Ninety days is the window in which a new program either earns organizational trust or loses it, and that combination of evidence is what converts a mandate into momentum.</p>
+
+    <p>It deliberately starts with <b>two</b> pilot functions rather than a company-wide rollout. Two is enough to prove the approach works in more than one context, because a method that works in only one function is a one-off, not a framework. Two is also few enough that each pilot gets real attention, real measurement, and real course correction. Expansion to the rest of the company comes later, and only after the pilots have proven themselves. That sequencing is the difference between building institutional capability and running an experiment.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 900 560" role="img" aria-label="Master map of the 90 day program: three phases of four numbered deliverables each, an always-on band beneath them, and an outcome beyond day 90">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#4B4E6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+        <!-- Phase columns -->
+        <g font-family="Inter,sans-serif">
+          <!-- Phase 1 -->
+          <rect x="20" y="20" width="270" height="296" rx="14" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="155" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="700" fill="#10122E">Days 1-30</text>
+          <text x="155" y="74" text-anchor="middle" font-size="13.5" fill="#5A5B66">Listen and baseline</text>
+
+          <a href="#d1" class="lnk" aria-label="Go to deliverable 1: Pick the two pilots"><rect x="40" y="92" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="62" cy="114" r="12" fill="#ED1B2F"/><text x="62" y="119" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">1</text>
+          <text x="82" y="119" font-size="13.5" fill="#1B1B21">Pick the two pilots</text></a>
+
+          <a href="#d2" class="lnk" aria-label="Go to deliverable 2: Baseline the workflows"><rect x="40" y="144" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="62" cy="166" r="12" fill="#ED1B2F"/><text x="62" y="171" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">2</text>
+          <text x="82" y="171" font-size="13.5" fill="#1B1B21">Baseline the workflows</text></a>
+
+          <a href="#d3" class="lnk" aria-label="Go to deliverable 3: Open the intake channel"><rect x="40" y="196" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="62" cy="218" r="12" fill="#ED1B2F"/><text x="62" y="223" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">3</text>
+          <text x="82" y="223" font-size="13.5" fill="#1B1B21">Open the intake channel</text></a>
+
+          <a href="#d4" class="lnk" aria-label="Go to deliverable 4: Draft the governance rules"><rect x="40" y="248" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="62" cy="270" r="12" fill="#ED1B2F"/><text x="62" y="275" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">4</text>
+          <text x="82" y="275" font-size="13.5" fill="#1B1B21">Draft the governance rules</text></a>
+
+          <line x1="294" y1="168" x2="311" y2="168" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah)"/>
+
+          <!-- Phase 2 -->
+          <rect x="315" y="20" width="270" height="296" rx="14" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="450" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="700" fill="#10122E">Days 31-60</text>
+          <text x="450" y="74" text-anchor="middle" font-size="13.5" fill="#5A5B66">Prioritize and deploy</text>
+
+          <a href="#d5" class="lnk" aria-label="Go to deliverable 5: Score ROI and feasibility"><rect x="335" y="92" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="357" cy="114" r="12" fill="#ED1B2F"/><text x="357" y="119" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">5</text>
+          <text x="377" y="119" font-size="13.5" fill="#1B1B21">Score ROI and feasibility</text></a>
+
+          <a href="#d6" class="lnk" aria-label="Go to deliverable 6: Write the business cases"><rect x="335" y="144" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="357" cy="166" r="12" fill="#ED1B2F"/><text x="357" y="171" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">6</text>
+          <text x="377" y="171" font-size="13.5" fill="#1B1B21">Write the business cases</text></a>
+
+          <a href="#d7" class="lnk" aria-label="Go to deliverable 7: Deploy through gates"><rect x="335" y="196" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="357" cy="218" r="12" fill="#ED1B2F"/><text x="357" y="223" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">7</text>
+          <text x="377" y="223" font-size="13.5" fill="#1B1B21">Deploy through gates</text></a>
+
+          <a href="#d8" class="lnk" aria-label="Go to deliverable 8: Define the scorecards"><rect x="335" y="248" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="357" cy="270" r="12" fill="#ED1B2F"/><text x="357" y="275" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">8</text>
+          <text x="377" y="275" font-size="13.5" fill="#1B1B21">Define the scorecards</text></a>
+
+          <line x1="589" y1="168" x2="606" y2="168" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah)"/>
+
+          <!-- Phase 3 -->
+          <rect x="610" y="20" width="270" height="296" rx="14" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="745" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="17" font-weight="700" fill="#10122E">Days 61-90</text>
+          <text x="745" y="74" text-anchor="middle" font-size="13.5" fill="#5A5B66">Prove and package</text>
+
+          <a href="#d9" class="lnk" aria-label="Go to deliverable 9: Dashboards and cadence"><rect x="630" y="92" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="652" cy="114" r="12" fill="#ED1B2F"/><text x="652" y="119" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">9</text>
+          <text x="672" y="119" font-size="13.5" fill="#1B1B21">Dashboards and cadence</text></a>
+
+          <a href="#d10" class="lnk" aria-label="Go to deliverable 10: AI agent layer v1"><rect x="630" y="144" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="652" cy="166" r="12" fill="#ED1B2F"/><text x="652" y="171" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">10</text>
+          <text x="672" y="171" font-size="13.5" fill="#1B1B21">AI agent layer v1</text></a>
+
+          <a href="#d11" class="lnk" aria-label="Go to deliverable 11: Playbook and training v1"><rect x="630" y="196" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="652" cy="218" r="12" fill="#ED1B2F"/><text x="652" y="223" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">11</text>
+          <text x="672" y="223" font-size="13.5" fill="#1B1B21">Playbook and training v1</text></a>
+
+          <a href="#d12" class="lnk" aria-label="Go to deliverable 12: Exec readout and roadmap"><rect x="630" y="248" width="230" height="44" rx="8" fill="#F7F7F8" stroke="#E6E6EA"/>
+          <circle cx="652" cy="270" r="12" fill="#ED1B2F"/><text x="652" y="275" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">12</text>
+          <text x="672" y="275" font-size="13.5" fill="#1B1B21">Exec readout and roadmap</text></a>
+
+          <!-- Always-on band -->
+          <rect x="20" y="346" width="860" height="76" rx="14" fill="#10122E"/>
+          <text x="44" y="390" font-family="Inter,sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">Always on</text>
+          <a href="#alwayson" class="lnk lnk-dark" aria-label="Go to the always-on layer: Executive communication"><rect x="190" y="362" width="200" height="44" rx="8" fill="#23254E"/>
+          <text x="290" y="389" text-anchor="middle" font-size="13.5" fill="#FFFFFF">Executive communication</text></a>
+          <a href="#alwayson" class="lnk lnk-dark" aria-label="Go to the always-on layer: Compliance gates"><rect x="410" y="362" width="200" height="44" rx="8" fill="#23254E"/>
+          <text x="510" y="389" text-anchor="middle" font-size="13.5" fill="#FFFFFF">Compliance gates</text></a>
+          <a href="#alwayson" class="lnk lnk-dark" aria-label="Go to the always-on layer: Enablement"><rect x="630" y="362" width="200" height="44" rx="8" fill="#23254E"/>
+          <text x="730" y="389" text-anchor="middle" font-size="13.5" fill="#FFFFFF">Enablement</text></a>
+
+          <line x1="450" y1="426" x2="450" y2="452" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah)"/>
+
+          <!-- Outcome -->
+          <a href="#beyond" class="lnk" aria-label="Go to the day 90 and beyond section"><rect x="250" y="456" width="400" height="70" rx="14" fill="#FDECEE" stroke="#ED1B2F" stroke-width="1.5"/>
+          <text x="450" y="486" text-anchor="middle" font-family="Inter,sans-serif" font-size="16" font-weight="700" fill="#AF0E20">Day 90 and beyond</text>
+          <text x="450" y="508" text-anchor="middle" font-size="13.5" fill="#AF0E20">Six months of sustained results, then expansion</text></a>
+        </g>
+      </svg>
+      <div class="figcap">Figure 1. The master map. Numbers 1 through 12 correspond to the twelve deliverable sections in this guide. Click any item to jump straight to its full explanation.</div>
+    </div>
+
+    <div class="howto">
+      <h4>How to read this diagram</h4>
+      <p><b>The three white columns</b> are the three 30-day phases. They run in sequence from left to right: the program listens and measures first, deploys second, and proves and packages third. Each column contains four boxes, which are that month's concrete deliverables. The <b>red numbered circles</b> are reference markers, and each number matches a fully explained section below, so nothing in this picture is left to interpretation.</p>
+      <p><b>The dark band</b> beneath the columns is work with no end date. Executive communication, compliance gates, and enablement run continuously underneath all three phases, which is why they are drawn as a foundation rather than as steps. <b>The red box</b> at the bottom is the program's true finish line: a pilot only counts as a success after six months of sustained, documented results, and only then does its approach expand to other functions.</p>
+    </div>
+  </div>
+</section>
+
+<section id="phase1">
+  <div class="wrap">
+    <div class="phasehead">
+      <span class="phasetag">Days 1-30</span>
+      <h2>Listen and baseline</h2>
+    </div>
+    <p class="kicker">The first month produces no AI deployments, and that is intentional. Everything deployed in month two depends on the quality of what is learned in month one. Deploying before understanding the work is how AI ends up layered on top of broken processes, which simply automates the brokenness.</p>
+
+    <div class="card" id="d1">
+      <h3><span class="num">1</span>Pick the two pilots</h3>
+      <div class="lbl">What it is</div>
+      <p>Working sessions with functional leaders across the company to select the two functions where the AI pilots will run, producing a short selection memo that names the choices and the reasoning behind each.</p>
+      <div class="lbl">Why it matters</div>
+      <p>Pilot selection is the single highest-leverage decision in the entire 90 days, because the wrong pilots can sink the program regardless of execution quality. A good pilot has four properties. The functional leader actively wants it, because a pilot imposed on a reluctant leader will quietly starve. The process has meaningful volume, because improvement claims need enough repetitions to be statistically credible. The baseline can actually be measured, because a process nobody can quantify today cannot prove improvement tomorrow. And the data sensitivity is manageable, because a first pilot that needs six months of security review before touching production data produces nothing in 90 days.</p>
+      <p>Choosing pilots together with functional leaders, rather than for them, also sets the operating posture of the whole program: this is a partnership, not an inspection.</p>
+    </div>
+
+    <div class="card" id="d2">
+      <h3><span class="num">2</span>Baseline the workflows</h3>
+      <div class="lbl">What it is</div>
+      <p>For each pilot, a detailed map of how the work actually flows today, step by step, person by person, system by system, paired with quantified measurements of current performance.</p>
+      <div class="lbl">What gets produced</div>
+      <p>A <b>baseline card</b> for each pilot process: a one-page record of the process as it stands, covering what it costs per unit of work, how long a unit takes from start to finish (cycle time), how often errors occur, and how much volume flows through. The card also names where each measurement came from, so it can be reproduced.</p>
+      <div class="lbl">Why it matters</div>
+      <p>Every improvement claim this program will ever make is a comparison against these numbers. Without a documented starting point, "the pilot improved quality" is an opinion; with one, it is arithmetic. Baseline cards also protect the program's credibility with executives: when results are reported in month three, no one can argue about whether the starting point was real, because it was written down before any AI touched the process. The mapping exercise has a second payoff as well. The process as documented and the process as practiced are almost always different things, and AI must be designed against the real one.</p>
+    </div>
+
+    <div class="card" id="d3">
+      <h3><span class="num">3</span>Open the intake channel</h3>
+      <div class="lbl">What it is</div>
+      <p>A simple, visible channel through which anyone in the company can submit an idea for where AI could help: a submission form, a published description of how ideas are evaluated, and a commitment that every submitter hears back with a decision and a reason.</p>
+      <div class="lbl">Why it matters</div>
+      <p>Two reasons, one offensive and one defensive. Offensively, the people closest to the work see opportunities no central team ever will, and the intake channel turns those observations into the pipeline for the next wave of pilots, so the expansion after day 90 never starts from a blank page. Defensively, when a company gets serious about AI, employees begin using AI tools on their own, with or without permission. An official front door, opened early, channels that energy into governed paths instead of ungoverned ones. The intake process does not need to be sophisticated in month one. It needs to exist, be known, and keep its promises.</p>
+    </div>
+
+    <div class="card" id="d4">
+      <h3><span class="num">4</span>Draft the governance rules</h3>
+      <div class="lbl">What it is</div>
+      <p>The first written version of the rules under which AI may be used at the company, covering four things: <b>data tiers</b> (a classification of company data by sensitivity, and which AI tools may touch which tier), <b>acceptable use</b> (what employees may and may not do with AI tools), <b>human-in-the-loop requirements</b> (which decisions must always have a person accountable for the final call), and a <b>model risk review</b> step (who signs off before any AI system touches a production process).</p>
+      <div class="lbl">Why it matters</div>
+      <p>Sequencing is the entire point. Governance is drafted in month one, before a single deployment, because governance written after deployment is governance written around whatever already shipped. For a company whose business runs on sensitive identity and fraud data, regulators, bank partners, and customers will all eventually ask the same question: how do you control this? The answer must be that the controls came first.</p>
+      <p>There is also a practical payoff. Clear guardrails agreed early make every later approval faster, because the security and compliance conversation happens once at the framework level instead of repeatedly at every deployment. Done this way, governance is an accelerant, not a brake.</p>
+    </div>
+  </div>
+</section>
+
+<section id="phase2">
+  <div class="wrap">
+    <div class="phasehead">
+      <span class="phasetag">Days 31-60</span>
+      <h2>Prioritize and deploy</h2>
+    </div>
+    <p class="kicker">Month two converts month one's understanding into committed decisions and live deployments. The order inside this phase matters: score first, commit second, deploy third, and define measurement before any results arrive.</p>
+
+    <div class="card" id="d5">
+      <h3><span class="num">5</span>Score ROI and feasibility</h3>
+      <div class="lbl">What it is</div>
+      <p>Every candidate opportunity, drawn from the pilot workflow maps and the intake channel, scored on two axes and ranked into a portfolio. The first axis is <b>return on investment</b>: the projected improvement against the baseline card, in cost reduced, cycle time shortened, and errors avoided. The second axis is <b>feasibility</b>, which combines three questions: is the data this process needs actually accessible and clean, how sensitive is that data under the governance tiers, and how much human behavior change does the improvement require.</p>
+      <div class="lbl">Why it matters</div>
+      <p>Without a scoring framework, prioritization defaults to whoever argues loudest or holds the most senior title. A two-axis score replaces advocacy with arithmetic and gives executives a defensible answer to "why this process and not that one." The feasibility axis exists to prevent a predictable failure: the opportunities with the largest theoretical returns often sit on the most sensitive data and the most entrenched habits, and a program that chases only the biggest number ships nothing in its first year. The right early portfolio balances return against the realistic odds of landing it.</p>
+    </div>
+
+    <div class="card" id="d6">
+      <h3><span class="num">6</span>Write the business cases</h3>
+      <div class="lbl">What it is</div>
+      <p>A short formal document for each opportunity that will move forward, stating the expected impact in numbers tied to the baseline card, the cost to implement, the risks and how each will be mitigated, and, critically, the exact metrics by which success or failure will be judged.</p>
+      <div class="lbl">Why it matters</div>
+      <p>The business case is a pre-commitment device. By writing down the success metrics before deployment, the program removes its own ability to retrofit a success story afterward. If the pilot works, the proof was specified in advance. If it falls short, that is visible too, and a program that can show its failures honestly is a program executives learn to trust. The business case is also where risk gets confronted on paper, in front of leadership, rather than discovered in production.</p>
+    </div>
+
+    <div class="card" id="d7">
+      <h3><span class="num">7</span>Deploy through gates</h3>
+      <div class="lbl">What it is</div>
+      <p>The actual deployment of AI into the two pilot processes, with two mandatory checkpoints, called gates, that every deployment must pass before going live. A gate is a checkpoint that cannot be skipped or deferred.</p>
+      <div class="lbl">Why it matters</div>
+      <p>Making compliance and adoption into gates, rather than recommendations, changes their nature: they stop being things a hurried team can postpone and become structural requirements of shipping at all. One more principle governs this step. The process is <b>redesigned around</b> the AI capability rather than bolting a tool onto the existing process. If a workflow has nine steps and AI removes the need for three of them, the redesigned workflow has six steps. Layering a tool onto all nine just automates waste.</p>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 900 250" role="img" aria-label="The gated deployment pipeline: a scored opportunity becomes a business case, passes a governance gate, is redesigned and built, passes an adoption gate, and goes live as a measured pilot">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#4B4E6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+        <g font-family="Inter,sans-serif">
+          <rect x="14" y="60" width="140" height="64" rx="10" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="84" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#10122E">Scored</text>
+          <text x="84" y="106" text-anchor="middle" font-size="13.5" font-weight="600" fill="#10122E">opportunity</text>
+
+          <line x1="158" y1="92" x2="178" y2="92" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah2)"/>
+
+          <rect x="182" y="60" width="140" height="64" rx="10" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="252" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#10122E">Business case</text>
+          <text x="252" y="106" text-anchor="middle" font-size="12" fill="#5A5B66">metrics committed</text>
+
+          <line x1="326" y1="92" x2="346" y2="92" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah2)"/>
+
+          <g>
+            <polygon points="394,52 438,92 394,132 350,92" fill="#FDECEE" stroke="#ED1B2F" stroke-width="1.5"/>
+            <text x="394" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#AF0E20">GATE 1</text>
+            <text x="394" y="104" text-anchor="middle" font-size="11.5" fill="#AF0E20">Governance</text>
+          </g>
+          <text x="394" y="162" text-anchor="middle" font-size="12" fill="#5A5B66">Security, privacy, and risk</text>
+          <text x="394" y="178" text-anchor="middle" font-size="12" fill="#5A5B66">sign-off before any</text>
+          <text x="394" y="194" text-anchor="middle" font-size="12" fill="#5A5B66">production data is touched</text>
+
+          <line x1="442" y1="92" x2="462" y2="92" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah2)"/>
+
+          <rect x="466" y="60" width="150" height="64" rx="10" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="541" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#10122E">Redesign + build</text>
+          <text x="541" y="106" text-anchor="middle" font-size="12" fill="#5A5B66">AI embedded natively</text>
+
+          <line x1="620" y1="92" x2="640" y2="92" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah2)"/>
+
+          <g>
+            <polygon points="688,52 732,92 688,132 644,92" fill="#FDECEE" stroke="#ED1B2F" stroke-width="1.5"/>
+            <text x="688" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#AF0E20">GATE 2</text>
+            <text x="688" y="104" text-anchor="middle" font-size="11.5" fill="#AF0E20">Adoption</text>
+          </g>
+          <text x="688" y="162" text-anchor="middle" font-size="12" fill="#5A5B66">Training delivered and a</text>
+          <text x="688" y="178" text-anchor="middle" font-size="12" fill="#5A5B66">continuity plan in place</text>
+          <text x="688" y="194" text-anchor="middle" font-size="12" fill="#5A5B66">before cutover</text>
+
+          <line x1="736" y1="92" x2="756" y2="92" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah2)"/>
+
+          <rect x="760" y="60" width="128" height="64" rx="10" fill="#10122E"/>
+          <text x="824" y="88" text-anchor="middle" font-size="13.5" font-weight="600" fill="#FFFFFF">Live pilot</text>
+          <text x="824" y="106" text-anchor="middle" font-size="12" fill="#C6C7D2">measured weekly</text>
+        </g>
+      </svg>
+      <div class="figcap">Figure 2. The gated deployment pipeline every opportunity travels, left to right.</div>
+    </div>
+
+    <div class="howto">
+      <h4>How to read this diagram</h4>
+      <p><b>Rectangles are work stages</b>; the pipeline reads left to right. An opportunity enters only after it has been scored (deliverable 5) and its business case, with success metrics committed in writing, is approved (deliverable 6). <b>The two red diamonds are the gates.</b> Gate 1 is the governance checkpoint: the security, privacy, and risk owners apply the rules drafted in deliverable 4 and must sign off before the AI system touches any production data. Gate 2 is the adoption checkpoint: the people whose work changes have been trained, and a continuity plan exists so the business keeps running if the AI component fails. A deployment that has not passed both gates does not go live, full stop. <b>The dark box</b> at the end is a live pilot, which immediately enters the weekly measurement rhythm described in deliverable 9.</p>
+    </div>
+
+    <div class="card" id="d8">
+      <h3><span class="num">8</span>Define the scorecards</h3>
+      <div class="lbl">What it is</div>
+      <p>Standardized definitions for every metric the program will report, captured in a metrics dictionary, plus a one-page scorecard template applied identically to every pilot. The dictionary defines, precisely, terms like cost per unit, throughput, error rate, and <b>headcount leverage</b>, which measures how much more output the same team produces, reframing AI as a capacity multiplier rather than a replacement program. Each definition includes its formula and data source.</p>
+      <div class="lbl">Why it matters</div>
+      <p>Two pilots measured two different ways cannot be compared, and a program that cannot compare its own pilots cannot honestly say what worked. Standard definitions set now also mean that when the program expands beyond the pilots, every new deployment plugs into the same measurement system instead of inventing its own. And as with the business cases, defining metrics before results arrive prevents cherry-picking: the scorecard is locked before anyone knows what it will show.</p>
+    </div>
+  </div>
+</section>
+
+<section id="phase3">
+  <div class="wrap">
+    <div class="phasehead">
+      <span class="phasetag">Days 61-90</span>
+      <h2>Prove and package</h2>
+    </div>
+    <p class="kicker">Month three is where the program demonstrates results and, just as importantly, packages itself so that it no longer depends on any one person.</p>
+
+    <div class="card" id="d9">
+      <h3><span class="num">9</span>Dashboards live, cadence running</h3>
+      <div class="lbl">What it is</div>
+      <p>The measurement system made visible and put on a clock: live dashboards showing each pilot's scorecard metrics against its baseline, plus a standing reporting rhythm at three altitudes.</p>
+      <div class="lbl">Why it matters</div>
+      <p>A dashboard nobody is scheduled to look at is decoration. The cadence is what turns measurement into management: drift gets caught in days instead of quarters, and pilot teams operate knowing their numbers will be discussed on a known schedule, which is a quiet but powerful driver of follow-through. The layered rhythm also matches information to audience. Working teams need weekly operational detail; executives need the quarterly pattern. One report for everyone serves no one.</p>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 900 240" role="img" aria-label="The reporting rhythm: one dashboard feeds a weekly pilot review for working teams, a monthly review for function leaders, and a quarterly readout for executives">
+        <defs>
+          <marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#4B4E6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+        <g font-family="Inter,sans-serif">
+          <rect x="20" y="80" width="190" height="80" rx="12" fill="#10122E"/>
+          <text x="115" y="113" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" font-weight="700" fill="#FFFFFF">One dashboard</text>
+          <text x="115" y="134" text-anchor="middle" font-size="12.5" fill="#C6C7D2">scorecard vs. baseline</text>
+
+          <line x1="214" y1="120" x2="276" y2="50" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah3)"/>
+          <line x1="214" y1="120" x2="276" y2="120" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah3)"/>
+          <line x1="214" y1="120" x2="276" y2="190" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah3)"/>
+
+          <rect x="282" y="20" width="596" height="56" rx="10" fill="#FFFFFF" stroke="#ED1B2F" stroke-width="1.5"/>
+          <text x="306" y="44" font-size="13.5" font-weight="700" fill="#AF0E20">WEEKLY</text>
+          <text x="306" y="62" font-size="13" fill="#1B1B21">Pilot review with the working teams: operational detail, blockers, course correction</text>
+
+          <rect x="282" y="92" width="596" height="56" rx="10" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="306" y="116" font-size="13.5" font-weight="700" fill="#10122E">MONTHLY</text>
+          <text x="306" y="134" font-size="13" fill="#1B1B21">Review with each pilot function's leadership: trend against baseline, risks, decisions</text>
+
+          <rect x="282" y="164" width="596" height="56" rx="10" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="306" y="188" font-size="13.5" font-weight="700" fill="#10122E">QUARTERLY</text>
+          <text x="306" y="206" font-size="13" fill="#1B1B21">Executive readout: outcomes, risks, and expansion recommendations</text>
+        </g>
+      </svg>
+      <div class="figcap">Figure 3. The reporting rhythm. The same dashboard feeds all three reviews, at three altitudes.</div>
+    </div>
+
+    <div class="howto">
+      <h4>How to read this diagram</h4>
+      <p><b>The dark box</b> on the left is the single source of truth: one dashboard per pilot, always showing current scorecard metrics next to the baseline card from deliverable 2, so improvement is read as a direct comparison rather than a claim. <b>The three rows</b> on the right are the standing meetings that consume it, and the arrows mean exactly that: the same numbers feed all three, with no separate version of the truth prepared for any audience. The frequency drops and the altitude rises as you read down: weekly for the teams doing the work, monthly for the leaders who own the function, quarterly for the executives who decide whether the program expands. The red border on the weekly row marks where problems are meant to be caught: at the working level, within days, long before they reach an executive readout.</p>
+    </div>
+
+    <div class="card" id="d10">
+      <h3><span class="num">10</span>AI agent layer, version one</h3>
+      <div class="lbl">What it is</div>
+      <p>AI agents deployed to run the program's own administrative machinery: a first set that triages incoming intake submissions, checks whether deployments have satisfied their gates, validates that weekly status updates are complete and specific rather than vague, and assembles the briefing materials for executive readouts.</p>
+      <div class="lbl">Why it matters</div>
+      <p>Three reasons. First, program overhead is real: intake triage, status chasing, and readout preparation can consume a coordinator's entire week, and agents collapse that work from days to hours. Second, the placement in month three is a deliberate statement of method. Agents automate the intake process, the gates, and the reporting cadence only after those things exist and demonstrably work, because automating a process before it works just produces failure at higher speed, which is exactly the mistake this program exists to prevent in every other function. Third, this deliverable is the program's proof of its own philosophy: the system that governs AI adoption is itself run by AI, built the right way. Process first, baseline first, automation second.</p>
+    </div>
+
+    <div class="card" id="d11">
+      <h3><span class="num">11</span>Playbook and training, version one</h3>
+      <div class="lbl">What it is</div>
+      <p>The repeatable method, written down: a playbook documenting every step of the framework so far (how to select a process, build a baseline card, score ROI and feasibility, write the business case, pass the gates, and stand up the scorecard), plus training materials that teach functional teams to run the early steps themselves.</p>
+      <div class="lbl">Why it matters</div>
+      <p>This is the deliverable that distinguishes institutional capability from individual heroics. If the method lives only in the program lead's head, the company has rented an outcome; if it lives in a playbook that others can execute, the company owns a capability. There is a scaling argument too: one person cannot personally run AI adoption across an entire company and was never supposed to. The endgame is functional teams identifying and baselining their own opportunities using the playbook, with the central program providing scoring, governance, and measurement. Version one will be imperfect, and that is fine. A real playbook shipped at day 90 and revised quarterly beats a perfect one that never ships.</p>
+    </div>
+
+    <div class="card" id="d12">
+      <h3><span class="num">12</span>Executive readout and expansion roadmap</h3>
+      <div class="lbl">What it is</div>
+      <p>The day-90 presentation to executive leadership, in three sections. <b>Results:</b> each pilot's performance against its baseline, on the metrics committed in writing back in month two, including anything that fell short. <b>Risks:</b> what was encountered, how it was handled, what remains open. <b>Roadmap:</b> which opportunities from the scored portfolio and intake pipeline the program recommends for the next wave, and what resources that wave requires.</p>
+      <div class="lbl">Why it matters</div>
+      <p>This is the moment the program converts 90 days of work into a mandate for the next 90. The structure is designed for credibility: results are reported against pre-committed numbers, shortfalls are presented alongside wins, and the expansion request is grounded in a scored pipeline rather than enthusiasm. Executives fund programs that demonstrate control, and control is exactly what the baseline cards, gates, and scorecards were built to demonstrate.</p>
+    </div>
+  </div>
+</section>
+
+<section id="alwayson">
+  <div class="wrap">
+    <div class="eyebrow">No end date</div>
+    <h2>The always-on layer</h2>
+    <p class="kicker">Beneath the three phases sits a band of work that never finishes. It is drawn as a separate layer in the master map specifically so no reader mistakes these for phase tasks that complete.</p>
+
+    <div class="trio">
+      <div class="t">
+        <h3>Executive communication</h3>
+        <p>Regular, unprompted updates to leadership begin in week one, long before there are results to show. Executive sponsorship is the program's oxygen, and sponsorship survives bad news but not surprises. A leadership team that has heard a steady, honest signal for three months receives the day-90 readout as a continuation, not a reveal.</p>
+      </div>
+      <div class="t">
+        <h3>Compliance gates</h3>
+        <p>The governance rules drafted in month one are not a document that gets filed. They are a living checkpoint applied to every deployment, every expansion, and every new tool, forever. In a regulated, data-sensitive business the obligation never closes, and a program that treats governance as a milestone it already passed is one incident away from being shut down.</p>
+      </div>
+      <div class="t">
+        <h3>Enablement</h3>
+        <p>Every deployment changes someone's daily work, and people do not adopt new ways of working because a tool appeared. Training, support, and visible responsiveness run continuously, because adoption is not an event at launch. It is a curve that has to be actively maintained, and the moment enablement stops, old habits return and the measured gains decay.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="beyond">
+  <div class="wrap">
+    <div class="eyebrow">The finish line that matters</div>
+    <h2>Day 90 and beyond: validated, then expanded</h2>
+    <p class="kicker">The framework defines a status that no pilot can claim at day 90: Validated. A pilot earns it only after sustaining its documented improvement for six full months, on the same scorecard, against the same baseline, with no decay.</p>
+
+    <p>The six-month bar exists because of a pattern anyone who has run transformation work will recognize. New deployments enjoy a burst of attention, novelty, and management focus, and almost anything improves for six weeks under those conditions. The honest question is what the numbers look like after the attention moves on. Six months of sustained performance is the difference between an improvement and an anecdote.</p>
+
+    <p>Validated status is also the gate for expansion: only a Validated pilot's playbook gets promoted for rollout to other functions, which means the company never scales an unproven pattern.</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 900 200" role="img" aria-label="The five statuses every opportunity moves through: Candidate, Scored, Piloting, Validated, and Scaled, with a six month sustained performance requirement between Piloting and Validated">
+        <defs>
+          <marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#4B4E6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+        <g font-family="Inter,sans-serif">
+          <rect x="20" y="60" width="140" height="52" rx="26" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="90" y="91" text-anchor="middle" font-size="14" font-weight="600" fill="#10122E">Candidate</text>
+
+          <line x1="164" y1="86" x2="186" y2="86" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah4)"/>
+
+          <rect x="190" y="60" width="140" height="52" rx="26" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="260" y="91" text-anchor="middle" font-size="14" font-weight="600" fill="#10122E">Scored</text>
+
+          <line x1="334" y1="86" x2="356" y2="86" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah4)"/>
+
+          <rect x="360" y="60" width="140" height="52" rx="26" fill="#FFFFFF" stroke="#10122E" stroke-width="1.5"/>
+          <text x="430" y="91" text-anchor="middle" font-size="14" font-weight="600" fill="#10122E">Piloting</text>
+
+          <line x1="504" y1="86" x2="556" y2="86" stroke="#AF0E20" stroke-width="1.5" marker-end="url(#ah4)"/>
+          <path d="M506 56 L506 44 L554 44 L554 56" fill="none" stroke="#AF0E20" stroke-width="1.2"/>
+          <text x="530" y="32" text-anchor="middle" font-size="12" font-weight="600" fill="#AF0E20">6 months sustained</text>
+
+          <rect x="560" y="60" width="140" height="52" rx="26" fill="#ED1B2F"/>
+          <text x="630" y="91" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">Validated</text>
+
+          <line x1="704" y1="86" x2="726" y2="86" stroke="#4B4E6B" stroke-width="1.5" marker-end="url(#ah4)"/>
+
+          <rect x="730" y="60" width="140" height="52" rx="26" fill="#10122E"/>
+          <text x="800" y="91" text-anchor="middle" font-size="14" font-weight="600" fill="#FFFFFF">Scaled</text>
+
+          <text x="450" y="156" text-anchor="middle" font-size="12.5" fill="#5A5B66">Only a Validated pilot's playbook is promoted for rollout to other functions.</text>
+        </g>
+      </svg>
+      <div class="figcap">Figure 4. The status lifecycle every opportunity moves through, left to right.</div>
+    </div>
+
+    <div class="howto">
+      <h4>How to read this diagram</h4>
+      <p><b>Each pill is a status</b>, and every opportunity in the program holds exactly one at any time, moving left to right and never skipping a step. The definitions are in the table below. <b>The red bracket and arrow</b> between Piloting and Validated mark the program's hardest requirement: six months of sustained, documented performance on the same scorecard against the same baseline. <b>The red pill</b> highlights Validated because it is the status the whole framework is built to reach, and the dark Scaled pill is what happens afterward: the pilot's playbook is rolled out to other functions through the same pipeline shown in Figure 2.</p>
+    </div>
+
+    <table>
+      <tr><th>Status</th><th>What it means</th></tr>
+      <tr><td>Candidate</td><td>Identified and sitting in the intake pipeline. Anyone in the company can create one through the intake channel (deliverable 3).</td></tr>
+      <tr><td>Scored</td><td>Evaluated on the ROI and feasibility axes (deliverable 5) and ranked in the portfolio.</td></tr>
+      <tr><td>Piloting</td><td>Approved business case, passed both gates, deployed, and being measured weekly against its baseline card.</td></tr>
+      <tr><td>Validated</td><td>Six full months of sustained, documented improvement with no decay. The only status that authorizes expansion.</td></tr>
+      <tr><td>Scaled</td><td>The pilot's playbook deployed beyond the original function, with each new deployment entering the same pipeline at Piloting.</td></tr>
+    </table>
+
+    <p>This final element is what makes the whole framework cohere. The purpose was never to run two interesting AI experiments. It was to build a system that reliably turns AI opportunities into durable productivity gains, proves each one with arithmetic rather than enthusiasm, and grows only as fast as its evidence allows.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>About this guide.</strong> Each numbered deliverable corresponds to a section of the full operating toolkit: the baseline card template, the scoring rubric, the gate checklists, the metrics dictionary, the scorecard, the playbook outline, and the readout format. This document is the narrative spine; the toolkit holds the working artifacts.</p>
+    <p style="margin-top:14px">Prepared by Chris Coyoli · June 2026</p>
+  </div>
+</footer>
+
+<script>
+const links=document.querySelectorAll('#topnav a');
+const secs=[...links].map(a=>document.querySelector(a.getAttribute('href')));
+const onScroll=()=>{
+  let i=secs.length-1;
+  while(i>0 && window.scrollY+120<secs[i].offsetTop) i--;
+  links.forEach((a,j)=>a.classList.toggle('on',j===i));
+};
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+const flash=()=>{const el=document.querySelector(location.hash||null);if(el&&el.classList.contains("card")){el.style.transition="border-color .3s, box-shadow .3s";el.style.borderColor="#ED1B2F";el.style.boxShadow="0 0 0 3px #FDECEE";setTimeout(()=>{el.style.borderColor="";el.style.boxShadow=""},1600);}};
+window.addEventListener("hashchange",flash);
+</script>
+</body>
+</html>
