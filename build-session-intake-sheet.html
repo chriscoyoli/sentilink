@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Session: Live Intake & Scoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#10122E; --ink:#1B1B21; --muted:#5A5B66; --red:#ED1B2F; --red-dark:#AF0E20;
+  --wash:#F7F7F8; --line:#E6E6EA; --white:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.5;font-size:14px}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 28px 48px}
+
+header{border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:20px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--red-dark);margin-bottom:6px}
+h1{font-size:26px;font-weight:600;letter-spacing:-0.02em;color:var(--navy)}
+.sub{font-size:13.5px;color:var(--muted);margin-top:6px;max-width:760px}
+
+h2{font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--red-dark);margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+
+/* Field legend */
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-bottom:8px}
+.field{font-size:13px}
+.field b{color:var(--navy)}
+.field .q{color:var(--muted);font-size:12px;display:block;margin-top:1px}
+@media(max-width:720px){.legend{grid-template-columns:1fr}}
+
+/* Capture blocks */
+.capture{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;background:var(--wash)}
+.capture .name{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.capture .name .tag{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#fff;background:var(--navy);border-radius:4px;padding:3px 10px}
+.capture .name .blank{flex:1;border-bottom:1.5px solid var(--navy);min-height:20px}
+.capture .name .status{font-size:10.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--red-dark);border:1px solid var(--red);border-radius:4px;padding:3px 9px}
+.capture .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px}
+.capture .row{font-size:12.5px}
+.capture .row .lbl{font-weight:600;color:var(--navy);display:block;margin-bottom:2px}
+.capture .row .line{border-bottom:1px solid var(--line);min-height:34px}
+@media(max-width:720px){.capture .grid{grid-template-columns:1fr}}
+
+/* Scoring table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:12px;min-width:920px}
+th,td{border:1px solid var(--line);padding:7px 8px;text-align:center;vertical-align:middle}
+th{background:var(--navy);color:#fff;font-weight:600;font-size:10.5px;letter-spacing:0.03em;line-height:1.25}
+th.idea,td.idea{text-align:left;min-width:120px;background:var(--wash);font-weight:600;color:var(--navy)}
+thead th:first-child{position:sticky;left:0;z-index:2}
+tbody td:first-child{position:sticky;left:0;z-index:1}
+.scoregroup{background:#FDECEE !important;color:var(--red-dark) !important}
+td.fill{height:38px}
+tbody tr:nth-child(even) td:not(.idea){background:#FCFCFD}
+.rice th{background:var(--red-dark)}
+
+.note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.6}
+.note b{color:var(--navy)}
+.rice-key{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0 4px}
+.rice-key .k{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12px}
+.rice-key .k b{color:var(--red-dark);display:block;font-size:12.5px;margin-bottom:3px}
+@media(max-width:720px){.rice-key{grid-template-columns:1fr 1fr}}
+
+.pick{border:1.5px solid var(--red);border-radius:10px;padding:14px 18px;margin-top:18px;background:#FDECEE}
+.pick b{color:var(--red-dark)}
+
+@media print{
+  body{font-size:11px}
+  .wrap{padding:0}
+  h2{margin:16px 0 8px}
+  .capture{break-inside:avoid;background:#fff}
+  table{min-width:0;font-size:9.5px}
+  th{font-size:8.5px}
+  .tablewrap{overflow:visible}
+  .rice-key{grid-template-columns:repeat(4,1fr)}
+  @page{size:landscape;margin:0.4in}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Build session &middot; Live intake and prioritization</div>
+  <h1>Capturing the ideas, then picking the one for Naftali</h1>
+  <p class="sub">Run this as the intake process itself: let each idea get told, capture it against the same fields, then score to choose. The act of doing this in the room is the demonstration of how intake would work at SentiLink.</p>
+</header>
+
+<h2>The qualifying inputs (what to capture per idea)</h2>
+<div class="legend">
+  <div class="field"><b>1. Candidate name</b><span class="q">Short handle for the idea.</span></div>
+  <div class="field"><b>2. Problem / pain point</b><span class="q">What is broken or slow today, and who feels it?</span></div>
+  <div class="field"><b>3. Baseline</b><span class="q">Current-state number: time, frequency, cost, rework. If unmeasurable, note that.</span></div>
+  <div class="field"><b>4. Desired outcome</b><span class="q">What good looks like, as a measurable before and after.</span></div>
+  <div class="field"><b>5. Scope and reusability</b><span class="q">How big, and does it generalize? One-off, or a primitive other teams reuse?</span></div>
+  <div class="field"><b>6. Confidence we can solve it</b><span class="q">Has a version worked before? Riskiest unknown?</span></div>
+  <div class="field"><b>7. Cost and effort</b><span class="q">Engineering-free? Time to MVP vs end-to-end? Discovery, alignment, tokens, infra, budget?</span></div>
+  <div class="field"><b>8. Data sensitivity / constraints</b><span class="q">Touches sensitive identity or customer data? Privacy, security, regulatory gates?</span></div>
+  <div class="field"><b>9. Is AI even the right tool?</b><span class="q">Could a process change, policy fix, or basic automation solve it first?</span></div>
+  <div class="field"><b>10. Naftali fit</b><span class="q">Would this resonate as a demo? Does it show something he cares about?</span></div>
+</div>
+
+<h2>Capture sheet (one block per idea)</h2>
+
+<!-- Repeatable capture block x3 -->
+<div class="capture">
+  <div class="name"><span class="tag">Idea 1</span><span class="blank"></span><span class="status">Candidate</span></div>
+  <div class="grid">
+    <div class="row"><span class="lbl">2. Problem / pain</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">3. Baseline</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">4. Desired outcome</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">5. Scope &amp; reusability</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">6. Confidence</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">7. Cost &amp; effort</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">8. Data sensitivity</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">9. AI the right tool?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">A. Finished tool or reusable primitive?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">B. Who adopts it, and will they?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">C. Does building it also teach / enable others?</span><div class="line"></div></div>
+  </div>
+</div>
+
+<div class="capture">
+  <div class="name"><span class="tag">Idea 2</span><span class="blank"></span><span class="status">Candidate</span></div>
+  <div class="grid">
+    <div class="row"><span class="lbl">2. Problem / pain</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">3. Baseline</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">4. Desired outcome</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">5. Scope &amp; reusability</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">6. Confidence</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">7. Cost &amp; effort</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">8. Data sensitivity</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">9. AI the right tool?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">A. Finished tool or reusable primitive?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">B. Who adopts it, and will they?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">C. Does building it also teach / enable others?</span><div class="line"></div></div>
+  </div>
+</div>
+
+<div class="capture">
+  <div class="name"><span class="tag">Idea 3</span><span class="blank"></span><span class="status">Candidate</span></div>
+  <div class="grid">
+    <div class="row"><span class="lbl">2. Problem / pain</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">3. Baseline</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">4. Desired outcome</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">5. Scope &amp; reusability</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">6. Confidence</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">7. Cost &amp; effort</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">8. Data sensitivity</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">9. AI the right tool?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">A. Finished tool or reusable primitive?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">B. Who adopts it, and will they?</span><div class="line"></div></div>
+    <div class="row"><span class="lbl">C. Does building it also teach / enable others?</span><div class="line"></div></div>
+  </div>
+</div>
+
+<h2>Scoring table (rate each 1&ndash;10, then RICE)</h2>
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr>
+      <th class="idea">Idea</th>
+      <th>2<br>Pain severity</th>
+      <th>3<br>Baseline clarity</th>
+      <th>4<br>Outcome size</th>
+      <th>5<br>Reusability</th>
+      <th>6<br>Confidence</th>
+      <th>7<br>Low cost / effort</th>
+      <th>8<br>Low data risk</th>
+      <th>9<br>Needs AI<br>(vs simpler fix)</th>
+      <th>10<br>Naftali fit</th>
+      <th>A<br>Reusable<br>primitive</th>
+      <th>C<br>Enables<br>others</th>
+      <th class="scoregroup">Reach</th>
+      <th class="scoregroup">Impact</th>
+      <th class="scoregroup">Confidence</th>
+      <th class="scoregroup">Effort</th>
+      <th class="scoregroup">RICE<br>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="idea">Idea 1</td><td class="fill"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td></tr>
+    <tr><td class="idea">Idea 2</td><td class="fill"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td></tr>
+    <tr><td class="idea">Idea 3</td><td class="fill"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td></tr>
+    <tr><td class="idea">Idea 4</td><td class="fill"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td></tr>
+    <tr><td class="idea">Idea 5</td><td class="fill"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td><td class="scoregroup"></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="note"><b>Scoring the 1&ndash;10 columns:</b> higher is always better for the pick. Note the framing on three columns: column 7 is <b>low</b> cost/effort (10 = cheap and fast), column 8 is <b>low</b> data risk (10 = no sensitive data), and column 9 is <b>needs AI</b> (10 = genuinely needs AI; a low score means a process or policy fix would do, which is a real outcome, just not a build-session pick).</p>
+
+<p class="note"><b>Aligned to the process guide.</b> Each idea enters as a <b>Candidate</b> and the one you choose advances to <b>Scored</b>, the same status taxonomy in the guide. Column A (reusable primitive) and column C (enables others) tie directly to the guide&rsquo;s two mandates: a pick that is a reusable building block <em>and</em> teaches others as it is built serves both the build and the transform mandate at once, which is the strongest kind of Naftali demo. Field B (who adopts it, and will they) is the guide&rsquo;s adoption gate, asked early.</p>
+
+<h2>RICE, for the final cut</h2>
+<div class="rice-key">
+  <div class="k"><b>Reach</b>How many people or how much volume it touches over a set period.</div>
+  <div class="k"><b>Impact</b>How much it moves the needle per person or instance (massive = 3, high = 2, medium = 1, low = 0.5).</div>
+  <div class="k"><b>Confidence</b>How sure we are, as a percentage (100% / 80% / 50%).</div>
+  <div class="k"><b>Effort</b>Person-time to build, in person-weeks. Lower is better.</div>
+</div>
+<p class="note"><b>RICE = (Reach &times; Impact &times; Confidence) &divide; Effort.</b> Use it as the tiebreaker once the 1&ndash;10 columns have narrowed the field. RICE rewards big, high-confidence, low-effort ideas, which is exactly what makes a strong Naftali demo.</p>
+
+<div class="pick">
+  <b>The pick for Naftali should win on four things at once:</b> visible value (he will care), reusability (proves the primitive-that-generalizes idea), buildability (you can actually prototype it before the meeting, ideally without engineering), and low data risk (won&rsquo;t stall on security review first). A smaller idea you can fully build and show working beats a bigger one you can only describe.
+</div>
+
+</div>
+</body>
+</html>
